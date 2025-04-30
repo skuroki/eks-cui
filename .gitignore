@@ -1,0 +1,15 @@
+# 環境変数ファイル
+.env
+
+# エディタファイル
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS生成ファイル
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes

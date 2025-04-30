@@ -1,0 +1,26 @@
+services:
+  eks-cui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - eks-aws-config:/root/.aws
+      - eks-kube-config:/root/.kube
+      - .:/workspace
+    environment:
+      - AWS_AZURE_LOGIN_MODE=cli
+      - AWS_AZURE_LOGIN_NO_PROMPT=true
+      - AWS_PAGER=
+      - CLUSTER_NAME=${CLUSTER_NAME}
+      - REGION=${REGION}
+      - ROLE_ARN=${ROLE_ARN}
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+
+volumes:
+  eks-aws-config:
+    external: true
+  eks-kube-config:
+    name: eks-kube-config
