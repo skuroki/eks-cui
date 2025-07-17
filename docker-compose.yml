@@ -10,16 +10,10 @@ services:
       - eks-kube-config:/root/.kube
       - .:/workspace
     environment:
-      - AWS_AZURE_LOGIN_MODE=cli
-      - AWS_AZURE_LOGIN_NO_PROMPT=true
-      - AWS_AZURE_LOGIN_NO_SANDBOX=true
       - AWS_PAGER=
       - CLUSTER_NAME=${CLUSTER_NAME}
       - REGION=${REGION}
       - ROLE_ARN=${ROLE_ARN}
-      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-      - DISPLAY=""
     env_file:
       - .env
     stdin_open: true

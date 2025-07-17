@@ -10,7 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     AWS_AZURE_LOGIN_NO_SANDBOX=true \
     DISPLAY="" \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
+    CHROME_FLAGS="--no-sandbox --disable-dev-shm-usage --disable-gpu --remote-debugging-port=9222"
 
 # 基本パッケージのインストール
 RUN apt-get update && \
