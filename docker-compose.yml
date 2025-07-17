@@ -13,6 +13,8 @@ services:
       - CLUSTER_NAME=${CLUSTER_NAME}
       - REGION=${REGION}
       - ROLE_ARN=${ROLE_ARN}
+      - DISPLAY=:99
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
     env_file:
       - .env
     stdin_open: true

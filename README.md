@@ -1,6 +1,14 @@
 このコンテナの目的は、ホスト機に依存すること無くEKSへのkubectlコマンド実行ができることである
 実行時には、今登録したログイン時のロールから、本番作業用のロールに切り替えて行う想定である
 
+## 対応環境
+
+このツールは以下の環境で動作します：
+- Intel MacBook (x86_64)
+- Apple Silicon MacBook (M1/M2/M3/M4) - ARM64ネイティブ対応
+
+Apple Silicon環境では、seleniarmベースのDockerイメージを使用してChromiumが最適化されています。
+
 ## 初期設定
 
 ### Docker Composeのビルド

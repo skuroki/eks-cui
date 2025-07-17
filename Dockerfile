@@ -58,7 +58,7 @@ RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/down
     | tar xz -C /usr/local/bin
 
 # Xvfb起動スクリプトを作成
-RUN echo '#!/bin/bash\nXvfb :99 -screen 0 1920x1080x24 &\nexport DISPLAY=:99\nexec "$@"' > /usr/local/bin/entrypoint.sh && \
+RUN echo '#!/bin/bash\nXvfb :99 -screen 0 1920x1080x24 &\nexport DISPLAY=:99\nexport PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium\nexec "$@"' > /usr/local/bin/entrypoint.sh && \
     chmod +x /usr/local/bin/entrypoint.sh
 
 # 作業ディレクトリ
