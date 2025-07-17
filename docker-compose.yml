@@ -3,12 +3,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      platforms:
-        - linux/arm64
     volumes:
       - eks-aws-config:/root/.aws
       - eks-kube-config:/root/.kube
       - .:/workspace
+      - /dev/shm:/dev/shm  # Chrome用共有メモリ
     environment:
       - AWS_PAGER=
       - CLUSTER_NAME=${CLUSTER_NAME}
