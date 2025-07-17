@@ -1,5 +1,5 @@
-# ベースイメージに Ubuntu 22.04 を使用
-FROM ubuntu:22.04
+# ベースイメージに Ubuntu 22.04 を使用（ARM64ネイティブ）
+FROM --platform=linux/arm64 ubuntu:22.04
 
 # 非対話モード＆日本語ロケール設定
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -9,7 +9,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     AWS_AZURE_LOGIN_NO_PROMPT=true \
     AWS_AZURE_LOGIN_NO_SANDBOX=true \
     DISPLAY="" \
-    PUPPETEER_SKIP_DOWNLOAD=false
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # 基本パッケージのインストール
 RUN apt-get update && \
@@ -19,10 +20,6 @@ RUN apt-get update && \
 # NodeJSのrepositoryを追加
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
-
-# Google Chromeのリポジトリを追加
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /etc/apt/trusted.gpg.d/google.gpg && \
-    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
 
 # 必要パッケージのインストール
 RUN apt-get update && \
@@ -35,7 +32,13 @@ RUN apt-get update && \
       gnupg \
       lsb-release \
       locales \
-      google-chrome-stable \
+      chromium \
+      fonts-liberation \
+      libatk-bridge2.0-0 \
+      libnss3 \
+      libxss1 \
+      libasound2 \
+      libxshmfence1 \
       libx11-xcb1 \
       libxcomposite1 \
       libxcursor1 \
@@ -43,13 +46,9 @@ RUN apt-get update && \
       libxext6 \
       libxi6 \
       libxtst6 \
-      libnss3 \
       libcups2 \
-      libxss1 \
       libxrandr2 \
-      libasound2 \
       libatk1.0-0 \
-      libatk-bridge2.0-0 \
       libpangocairo-1.0-0 \
       libgtk-3-0 \
       libgbm1 && \
@@ -57,8 +56,8 @@ RUN apt-get update && \
     npm install -g aws-azure-login@1.2.0 && \
     rm -rf /var/lib/apt/lists/*
 
-# AWS CLI v2 のインストール
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscliv2.zip && \
+# AWS CLI v2 のインストール（ARM64版）
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o /tmp/awscliv2.zip && \
     cd /tmp && \
     unzip awscliv2.zip && \
     ./aws/install && \
@@ -75,8 +74,8 @@ RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --d
 # helm のインストール
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-# eksctl のインストール
-RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.171.0/eksctl_Linux_amd64.tar.gz" \
+# eksctl のインストール（ARM64版）
+RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.171.0/eksctl_Linux_arm64.tar.gz" \
     | tar xz -C /usr/local/bin
 
 # 作業ディレクトリ
