@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    user: root
     volumes:
       - eks-aws-config:/root/.aws
       - eks-kube-config:/root/.kube
@@ -15,6 +16,7 @@ services:
       - ROLE_ARN=${ROLE_ARN}
       - DISPLAY=:99
       - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+      - HOME=/root
     env_file:
       - .env
     stdin_open: true
