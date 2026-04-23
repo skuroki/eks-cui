@@ -18,7 +18,7 @@ USER root
 
 # NodeJSのrepositoryを追加とパッケージインストール
 RUN apt-get update && \
-    apt-get install -y ca-certificates curl gnupg wget less && \
+    apt-get install -y -o Dpkg::Options::="--force-overwrite" ca-certificates curl gnupg wget less && \
     mkdir -p /etc/apt/keyrings && \
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
@@ -27,6 +27,7 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       nodejs \
+      npm \
       curl \
       unzip \
       jq \
@@ -52,6 +53,11 @@ RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | gpg --d
 
 # helm のインストール
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# kustomize のインストール（ARM64版）
+RUN curl -sLO "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.4.3/kustomize_v5.4.3_linux_arm64.tar.gz" && \
+    tar xzf kustomize_v5.4.3_linux_arm64.tar.gz -C /usr/local/bin && \
+    rm kustomize_v5.4.3_linux_arm64.tar.gz
 
 # eksctl のインストール（ARM64版）
 RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.171.0/eksctl_Linux_arm64.tar.gz" \
