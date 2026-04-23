@@ -15,14 +15,14 @@ unset AWS_SESSION_TOKEN
 
 # AWS認証セッションのチェック
 echo "1. AWS認証セッションをチェックします..."
-if aws sts get-caller-identity &>/dev/null; then
-  echo "既存のAWS認証セッションが有効です。ログインステップをスキップします。"
-  ALREADY_LOGGED_IN=true
-else
+# if aws sts get-caller-identity &>/dev/null; then
+#   echo "既存のAWS認証セッションが有効です。ログインステップをスキップします。"
+#   ALREADY_LOGGED_IN=true
+# else
   echo "AWSにログインします..."
   aws-azure-login --no-sandbox
   ALREADY_LOGGED_IN=false
-fi
+# fi
 
 # 現在の認証情報を確認
 echo "2. 現在の認証情報を確認します..."
