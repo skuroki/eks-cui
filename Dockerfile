@@ -63,6 +63,15 @@ RUN curl -sLO "https://github.com/kubernetes-sigs/kustomize/releases/download/ku
 RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.171.0/eksctl_Linux_arm64.tar.gz" \
     | tar xz -C /usr/local/bin
 
+# kubens のインストール（シェルスクリプト）
+RUN curl -sL "https://raw.githubusercontent.com/ahmetb/kubectx/v0.9.5/kubens" -o /usr/local/bin/kubens && \
+    chmod +x /usr/local/bin/kubens
+
+# terraform のインストール（ARM64版）
+RUN curl -sLO "https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_arm64.zip" && \
+    unzip terraform_1.9.8_linux_arm64.zip -d /usr/local/bin && \
+    rm terraform_1.9.8_linux_arm64.zip
+
 # Xvfb起動スクリプトを作成
 RUN echo '#!/bin/bash\nXvfb :99 -screen 0 1920x1080x24 &\nexport DISPLAY=:99\nexport PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium\nexec "$@"' > /usr/local/bin/entrypoint.sh && \
     chmod +x /usr/local/bin/entrypoint.sh
